@@ -25,7 +25,7 @@ jobs:
       # 3. Instalacja oficjalnej biblioteki Firecrawl
       - name: Instalacja zależności
         run: |
-          pip install firecrawl-py
+           pip install firecrawl-py pydantic
 
       # 4. Uruchomienie przygotowanego skryptu Python
       - name: Uruchomienie skryptu scrapującego
