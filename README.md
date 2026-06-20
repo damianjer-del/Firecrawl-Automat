@@ -31,6 +31,19 @@ Our development lifecycle is divided into clear milestones to track progress and
 ---
 
 ## 🚀 Getting Started
+## 🚀 Getting Started
+
+### Prerequisites
+Before running the project, ensure you have the following installed:
+* Python 3.10+ / Go (or specify your primary language)
+* Docker & Docker Compose
+
+### Quick Start Installation
+
+1. **Clone the repository:**
+   ```bash
+   git clone [https://github.com/YOUR_USERNAME/Firecrawl-Automat.git](https://github.com/YOUR_USERNAME/Firecrawl-Automat.git)
+   cd Firecrawl-Automatf
 
 ### Prerequisites
 Before running the project, ensure you have the following installed:
