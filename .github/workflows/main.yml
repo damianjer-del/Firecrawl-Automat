@@ -1,0 +1,25 @@
+name: Odpalenie Firecrawl
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Pobranie repozytorium
+        uses: actions/checkout@v4
+
+      - name: Instalacja Pythona
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Instalacja biblioteki Firecrawl
+        run: pip install firecrawl-py
+
+      - name: Uruchomienie skryptu z kluczem API
+        env:
+          FIRECRAWL_API_KEY: ${{ secrets.FIRECRAWL_API_KEY }}
+        run: python skrypt.py
