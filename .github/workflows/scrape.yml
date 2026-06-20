@@ -1,0 +1,44 @@
+name: Automatyczne pobieranie danych Firecrawl
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # Uruchamia proces automatycznie codziennie o północy
+  workflow_dispatch: # Pozwala na ręczne uruchomienie przyciskiem w zakładce Actions
+
+jobs:
+  run-scraper:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # Wymagane uprawnienie, aby skrypt mógł zapisać plik CSV w repozytorium
+
+    steps:
+      # 1. Pobranie najnowszej wersji kodu z repozytorium
+      - name: Klonowanie repozytorium
+        uses: actions/checkout@v4
+
+      # 2. Konfiguracja środowiska Python
+      - name: Konfiguracja Pythona
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      # 3. Instalacja oficjalnej biblioteki Firecrawl
+      - name: Instalacja zależności
+        run: |
+          pip install firecrawl-py
+
+      # 4. Uruchomienie przygotowanego skryptu Python
+      - name: Uruchomienie skryptu scrapującego
+        env:
+          FIRECRAWL_API_KEY: ${{ secrets.FIRECRAWL_API_KEY }}
+        run: python scraper.py
+
+      # 5. Automatyczne dodanie pliku CSV i wypchnięcie zmian do repozytorium
+      - name: Zapisanie pliku CSV w repozytorium
+        run: |
+          git config --global user.name "GitHub Scraper Bot"
+          git config --global user.email "actions@github.com"
+          git add dane.csv
+          
+          # Commit nastąpi tylko wtedy, gdy dane w CSV faktycznie się zmieniły
+          git diff-index --quiet HEAD || (git commit -m "Aktualizacja pliku dane.csv" && git push)
